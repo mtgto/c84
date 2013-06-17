@@ -1,4 +1,6 @@
 Twostepauth::Application.routes.draw do
+  get "auth/login"
+  get "auth/callback"
   root to: 'static_pages#home'
   match '/info', to: 'static_pages#info', via: 'get'
   # The priority is based upon order of creation: first created -> highest priority.
