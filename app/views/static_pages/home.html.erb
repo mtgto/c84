@@ -1,9 +1,20 @@
-<div class="jumbotron">
-  <h1>Two-way Auth</h1>
-  <p>
-    This is the home page for the
-    <a href="http://railstutorial.org/">Ruby on Rails Tutorial</a>
-    sample application.
-  </p>
-  <%= link_to 'Twitterアカウントでサインイン', '/auth/twitter', :class => 'btn btn-large' %>
-</div>
+<% if signed_in? %>
+  <div class="jumbotron">
+    <h1>Two-way Auth</h1>
+    <p>
+      ドーモ <%= current_user.name %> サン
+    </p>
+    <%= link_to '音声電話で認証', telephone_path, :class => 'btn btn-large' %>
+    <%= link_to 'サインアウト', logout_path, :class => 'btn btn-large' %>
+  </div>
+<% else %>
+  <div class="jumbotron">
+    <h1>Two-way Auth</h1>
+    <p>
+      This is the home page for the
+      <a href="http://railstutorial.org/">Ruby on Rails Tutorial</a>
+      sample application.
+    </p>
+    <%= link_to 'Twitterアカウントでサインイン', '/auth/twitter', :class => 'btn btn-large' %>
+  </div>
+<% end %>

@@ -3,6 +3,9 @@ Twostepauth::Application.routes.draw do
   match '/info', to: 'static_pages#info', via: 'get'
   match "/auth/:provider/callback" => "sessions#create", via: 'get'
   match "/logout" => "sessions#destroy", via: 'get'
+  match '/telephone', to: 'twoways#telephone', via: 'get'
+  match '/telephone', to: 'twoways#telephone_confirm', via: 'patch'
+  match '/telephone/confirm', to: 'twoways#telephone_check', via: 'post'
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

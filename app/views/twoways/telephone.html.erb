@@ -1,0 +1,11 @@
+<div class="jumbotron">
+  <h1>Two-way Auth</h1>
+  <p>
+    電話番号を入れてね
+  </p>
+  <%= form_for(current_user, :url => telephone_path) do |f| %>
+    <%= f.label :phone %>
+    <%= f.text_field :phone %>
+    <%= f.submit "送信", class: "btn btn-primary" %></p>
+  <% end %>
+</div>
