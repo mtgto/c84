@@ -36,12 +36,12 @@ class TwowaysController < ApplicationController
     https.start {|h|
       res = h.get(uri.request_uri)
       return false unless parse_response_is_success?(res.body)
-
       @cookie = res['Set-Cookie'].split(',').join(';')
       query = URI.encode_www_form(:action => 'Originate', :channel => "SIP/184#{phone_number}@fusion-smart", :context => 'default', :exten => "999#{token}", :priority => '1')
       res = h.get('/mxml?' + query, 'Cookie' => @cookie)
+      return false unless parse_response_is_success?(res.body)
     }
-    parse_response_is_success?(res.body)
+    true
   end
 
   # [res]
@@ -61,7 +61,7 @@ class TwowaysController < ApplicationController
   # [return]
   #   成功値ならtrue
   def parse_response_is_success?(body)
-    doc = REXML::Document.new(res.body)
-    REXML::XPath.first(doc, "//response/generic/attribute::response") == 'Success'
+    doc = REXML::Document.new(body)
+    REXML::XPath.first(doc, "//response/generic/attribute::response").to_s == 'Success'
   end
 end
