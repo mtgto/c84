@@ -31,7 +31,7 @@ class TwowaysController < ApplicationController
     uri = URI::HTTPS.build({:host => config[:host], :port => config[:port], :path => '/mxml', :query => query})
     https = Net::HTTP.new(uri.host, uri.port)
     https.use_ssl = true
-    https.ca_file = config[:ca]
+    https.ca_file = Rails.root.join('config/', config[:ca]).to_s
     https.verify_mode = OpenSSL::SSL::VERIFY_PEER
     https.start {|h|
       res = h.get(uri.request_uri)
