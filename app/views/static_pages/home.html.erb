@@ -5,6 +5,7 @@
       ドーモ <%= current_user.name %> サン
     </p>
     <%= link_to '音声電話で認証', telephone_path, :class => 'btn btn-large' %>
+    <%= link_to 'SMSで認証', sms_path, :class => 'btn btn-large' %>
     <%= link_to 'サインアウト', logout_path, :class => 'btn btn-large' %>
   </div>
 <% else %>

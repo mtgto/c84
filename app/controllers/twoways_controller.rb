@@ -2,19 +2,57 @@ require 'rexml/document'
 require 'net/https'
 
 class TwowaysController < ApplicationController
-  before_action :signed_in_user, only: [:telephone, :telephone_confirm]
+  before_action :signed_in_user, only: [:telephone, :telephone_confirm, :telephone_check, :sms, :sms_confirm, :sms_check]
   def telephone
   end
 
   def telephone_confirm
-    phonenumber = params[:user][:phone]
-    secret = '%06d'%rand(0..999999)
-    session[:secret] = secret
-    call(phonenumber, secret)
+    if session[:secret].nil?
+      phonenumber = params[:user][:phone]
+      if phonenumber =~ /^0\d{10}$/
+        secret = '%06d'%rand(0..999999)
+        session[:secret] = secret
+        call(phonenumber, secret)
+      else
+        flash.now[:error] = '最初からやり直してください'
+        redirect_to root_url
+      end
+    else
+      session[:secret] = nil
+      flash.now[:error] = '最初からやり直してください'
+      redirect_to root_url
+    end
   end
 
   def telephone_check
     @success = session[:secret] == params[:user][:secret]
+    session[:secret] = nil
+  end
+
+  def sms
+  end
+
+  def sms_confirm
+    if session[:secret].nil?
+      phonenumber = params[:user][:phone]
+      if phonenumber =~ /^0\d{10}$/
+        secret = '%06d'%rand(0..999999)
+        session[:secret] = secret
+        send_sms(phonenumber, secret)
+      else
+        flash.now[:error] = '最初からやり直してください'
+        redirect_to root_url
+      end
+    else
+      session[:secret] = nil
+      flash.now[:error] = '最初からやり直してください'
+      redirect_to root_url
+    end
+  end
+
+  def sms_check
+    @success = session[:secret] == params[:user][:secret]
+    session[:secret] = nil
   end
 
   private
@@ -42,6 +80,14 @@ class TwowaysController < ApplicationController
       return false unless parse_response_is_success?(res.body)
     }
     true
+  end
+
+  def send_sms(phone_number, token)
+    config = Twostepauth::Application.config.asterisk
+    client = Twilio::REST::Client.new(config[:twilio_sid], config[:twilio_authtoken])
+    account = client.account
+    message = account.sms.messages.create({:from => config[:twilio_phone], :to => phone_number.gsub(/^0/, '+81'), :body => "認証コードは #{token} です"})
+    puts message
   end
 
   # [res]

@@ -1,0 +1,10 @@
+<div class="jumbotron">
+  <h1>Two-way Auth</h1>
+  <p>
+    SMSで通知された数字を入れてね
+  </p>
+  <%= form_tag(sms_confirm_path, :method => 'post') do |f| %>
+    <%= text_field :user, :secret %>
+    <%= submit_tag "送信", class: "btn btn-primary" %></p>
+  <% end %>
+</div>

@@ -1,0 +1,11 @@
+<div class="jumbotron">
+  <h1>Two-way Auth</h1>
+  <p>
+    <% if @success %>
+      あってました！
+    <% else %>
+      だめだったよ
+    <% end %>
+  </p>
+  <%= link_to 'トップに戻る', root_path, :class => 'btn btn-large' %>
+</div>

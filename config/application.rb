@@ -25,6 +25,7 @@ module Twostepauth
     # config.i18n.load_path += Dir[Rails.root.join('my', 'locales', '*.{rb,yml}').to_s]
     # config.i18n.default_locale = :de
     config.asterisk = {:host => ENV['ASTERISK_HOST'], :port => ENV['ASTERISK_PORT'].to_i, :username => ENV['ASTERISK_USERNAME'],
-                       :password => ENV['ASTERISK_PASSWORD'], :ca => ENV['ASTERISK_CA_FILE']}
+                       :password => ENV['ASTERISK_PASSWORD'], :ca => ENV['ASTERISK_CA_FILE'], :twilio_phone => ENV['TWILIO_PHONE_FROM'],
+                       :twilio_sid => ENV['TWILIO_ACCOUNT_SID'], :twilio_authtoken => ENV['TWILIO_ACCOUNT_AUTHTOKEN']}
   end
 end

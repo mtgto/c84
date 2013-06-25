@@ -6,6 +6,9 @@ Twostepauth::Application.routes.draw do
   match '/telephone', to: 'twoways#telephone', via: 'get'
   match '/telephone', to: 'twoways#telephone_confirm', via: 'patch'
   match '/telephone/confirm', to: 'twoways#telephone_check', via: 'post'
+  match '/sms', to: 'twoways#sms', via: 'get'
+  match '/sms', to: 'twoways#sms_confirm', via: 'patch'
+  match '/sms/confirm', to: 'twoways#sms_check', via: 'post'
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
