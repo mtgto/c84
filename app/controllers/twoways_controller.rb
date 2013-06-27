@@ -86,19 +86,8 @@ class TwowaysController < ApplicationController
     config = Twostepauth::Application.config.asterisk
     client = Twilio::REST::Client.new(config[:twilio_sid], config[:twilio_authtoken])
     account = client.account
-    message = account.sms.messages.create({:from => config[:twilio_phone], :to => phone_number.gsub(/^0/, '+81'), :body => "認証コードは #{token} です"})
+    message = account.sms.messages.create({:from => config[:twilio_phone], :to => phone_number.gsub(/^0/, '+81'), :body => "こちらはC84 ななかインサイド用のデモサイトです。あなたの認証コードは #{token} です"})
     puts message
-  end
-
-  # [res]
-  #   HTTPResponse
-  def parse_session_id(res)
-    cookie = {}
-    res.get_fields('Set-Cookie').each{|str|
-      k,v = str[0...str.index(';')].split('=')
-      cookie[k] = v
-    }
-    'mainsession_id=' + cookie['mansession_id'][1..-2]
   end
 
   # Asteriskからのレスポンスの実行結果を真偽値に変換して返す
